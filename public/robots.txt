@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://e-tec-sa-k.vercel.app/sitemap.xml
