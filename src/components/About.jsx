@@ -1,4 +1,3 @@
-import EKLogo from './EKLogo'
 import useReveal from './useReveal'
 import { scrollTo } from './scrollTo'
 import styles from './About.module.css'
@@ -21,7 +20,7 @@ export default function About() {
           {/* Image panel */}
           <div className={styles.imgWrap + ' reveal'}>
             <div className={styles.imgBg}>
-              <div className={styles.imgLogo}><EKLogo size={160} /></div>
+              <img src="/EK.jpg" alt="EK — Technical Cleanliness Expert" className={styles.photo} />
             </div>
             <div className={styles.accent}>
               <div className={styles.accentNum}>ISO</div>

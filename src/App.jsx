@@ -9,6 +9,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import PrivacyPage from './pages/PrivacyPage'
 import BackToTop from './components/BackToTop'
 import ProgressBar from './components/ProgressBar'
+import CookieBanner from './components/CookieBanner'
 
 export default function App() {
   const { pathname, hash } = useLocation()
@@ -39,6 +40,7 @@ export default function App() {
       </main>
       <Footer />
       <BackToTop />
+      <CookieBanner />
     </>
   )
 }
