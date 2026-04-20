@@ -9,12 +9,21 @@ import BackToTop from './components/BackToTop'
 import ProgressBar from './components/ProgressBar'
 
 export default function App() {
-  const { pathname } = useLocation()
+  const { pathname, hash } = useLocation()
 
-  // Scroll to top on route change
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
-  }, [pathname])
+    if (hash) {
+      // Give the page time to render then scroll to the section
+      setTimeout(() => {
+        const el = document.getElementById(hash.slice(1))
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }, [pathname, hash])
 
   return (
     <>
