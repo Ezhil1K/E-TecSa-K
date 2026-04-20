@@ -13,13 +13,10 @@ export default function App() {
 
   useEffect(() => {
     if (hash) {
-      // Give the page time to render then scroll to the section
       setTimeout(() => {
         const el = document.getElementById(hash.slice(1))
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      }, 100)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 200)
     } else {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }

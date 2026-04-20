@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
 import EKLogo from './EKLogo'
 import useReveal from './useReveal'
+import { scrollTo } from './scrollTo'
 import styles from './About.module.css'
 
 const SKILLS = [
@@ -45,7 +45,7 @@ export default function About() {
             <ul className={styles.list}>
               {SKILLS.map(s => <li key={s}>{s}</li>)}
             </ul>
-            <Link to="/#contact" className="btn btn-primary">Work With Me →</Link>
+            <button onClick={() => scrollTo('contact')} className="btn btn-primary">Work With Me →</button>
           </div>
 
         </div>

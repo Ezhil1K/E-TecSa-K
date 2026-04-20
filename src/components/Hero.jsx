@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom'
 import EKLogo from './EKLogo'
+import { scrollTo } from './scrollTo'
 import styles from './Hero.module.css'
 
 export default function Hero() {
@@ -19,8 +19,8 @@ export default function Hero() {
             Specialist consultancy delivering world-class technical cleanliness solutions — from contamination analysis to ISO 16232 and VDA 19 compliance, helping manufacturers achieve the stringent cleanliness standards.
           </p>
           <div className={styles.actions}>
-            <Link to="/#contact" className="btn btn-primary">Get a Consultation →</Link>
-            <Link to="/#about"   className="btn btn-outline">Learn More</Link>
+            <button onClick={() => scrollTo('contact')} className="btn btn-primary">Get a Consultation →</button>
+            <button onClick={() => scrollTo('about')}   className="btn btn-outline">Learn More</button>
           </div>
         </div>
 
