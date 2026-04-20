@@ -41,7 +41,7 @@
   box-shadow: 0 12px 40px rgba(212,43,26,.4);
   text-align: center;
 }
-.accentNum   { font-size: 2.4rem; font-weight: 900; line-height: 1; }
+.accentNum   { font-size: 1.8rem; font-weight: 900; line-height: 1; }
 .accentLabel {
   font-size: .72rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .12em; opacity: .85;

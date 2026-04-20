@@ -23,8 +23,8 @@ export default function About() {
               <img src="/EK.jpg" alt="EK — Technical Cleanliness Expert" className={styles.photo} />
             </div>
             <div className={styles.accent}>
-              <div className={styles.accentNum}>ISO</div>
-              <div className={styles.accentLabel}>16232 Expert</div>
+              <div className={styles.accentNum}>TecSa</div>
+              <div className={styles.accentLabel}>Expert</div>
             </div>
           </div>
 
