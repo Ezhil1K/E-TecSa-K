@@ -1,0 +1,41 @@
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  E-TecSa-K WEBSITE — HOW TO ADD A NEW ARTICLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+STEP 1 — Open this file:
+  src/data/articles.js
+
+STEP 2 — Copy the template at the bottom of that file
+  and paste it inside the articles array (before the
+  closing square bracket ]).
+
+STEP 3 — Fill in your details:
+  • id          → unique URL slug, e.g. "my-new-article"
+  • featured    → true for ONE article only (homepage hero card)
+  • emoji       → any emoji for the card thumbnail
+  • category    → e.g. "Technical Guide", "Standards & Compliance"
+  • title       → your article headline
+  • date        → e.g. "May 2026"
+  • readTime    → e.g. "5 min read"
+  • excerpt     → short summary shown on the card
+  • content     → array of paragraphs; use "## Heading" for subheadings
+
+STEP 4 — Save the file. That's it\!
+  The article will automatically appear in:
+  • The Articles page (with category filter)
+  • The homepage preview section
+  • Its own full detail page at /articles/your-id
+  • The prev/next navigation on other articles
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  TO OPEN THE WEBSITE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Open:  dist/index.html  — in any browser (double-click)
+
+  The dist/ folder is the ready-to-use website.
+  After you add a new article you'll need Node.js to
+  rebuild. If you don't have it, ask Claude to rebuild
+  for you after editing articles.js.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
