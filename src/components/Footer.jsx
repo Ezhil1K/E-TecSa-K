@@ -52,6 +52,7 @@ export default function Footer() {
             <ul>
               <li><Link to="/#about">About Me</Link></li>
               <li><Link to="/#contact">Contact</Link></li>
+              <li><Link to="/privacy">Privacy Policy</Link></li>
             </ul>
           </div>
         </div>

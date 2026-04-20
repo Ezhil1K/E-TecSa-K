@@ -5,6 +5,8 @@ import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
 import ArticlesPage from './pages/ArticlesPage'
 import ArticleDetailPage from './pages/ArticleDetailPage'
+import NotFoundPage from './pages/NotFoundPage'
+import PrivacyPage from './pages/PrivacyPage'
 import BackToTop from './components/BackToTop'
 import ProgressBar from './components/ProgressBar'
 
@@ -31,6 +33,8 @@ export default function App() {
           <Route path="/"                  element={<HomePage />} />
           <Route path="/articles"          element={<ArticlesPage />} />
           <Route path="/articles/:id"      element={<ArticleDetailPage />} />
+          <Route path="/privacy"           element={<PrivacyPage />} />
+          <Route path="*"                  element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />
