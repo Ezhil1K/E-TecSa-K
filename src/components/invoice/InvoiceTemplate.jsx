@@ -6,7 +6,7 @@ const S = {
   wrap: { fontFamily: "'Inter', sans-serif", fontSize: '11px', color: '#1a1a1a', background: '#fff', width: '100%', maxWidth: '900px', margin: '0 auto', boxShadow: '0 4px 32px rgba(0,0,0,.10)', borderRadius: '4px', overflow: 'hidden' },
 
   // Header
-  header: { background: '#1B2B4B', color: '#fff', padding: '2rem 2.2rem', display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start' },
+  header: { background: '#1B2B4B', color: '#fff', padding: '2rem 2.2rem', display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
   logoArea: { display: 'flex', flexDirection: 'column', gap: '.3rem' },
   logoRow: { display: 'flex', alignItems: 'center', gap: '.6rem', marginBottom: '.4rem' },
   companyName: { fontSize: '18px', fontWeight: '900', color: '#fff', letterSpacing: '-.02em' },
@@ -64,7 +64,7 @@ const S = {
   sigSub: { fontSize: '10px', color: '#777' },
 
   // Footer
-  footer: { background: '#1B2B4B', padding: '1rem 2.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+  footer: { background: '#1B2B4B', padding: '1rem 2.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
   footerLeft: { display: 'flex', alignItems: 'center', gap: '.5rem' },
   footerBrand: { fontSize: '12px', fontWeight: '800', color: '#fff' },
   footerCenter: { fontSize: '10px', color: 'rgba(255,255,255,.6)' },
@@ -233,10 +233,4 @@ export default function InvoiceTemplate({ invoice }) {
           <EKLogo size={22} color="#fff" />
           <span style={S.footerBrand}>{c.name || 'E-TecSa-K'}</span>
         </div>
-        <div style={S.footerCenter}>{invoice.invoiceNumber} · {fmtDate(invoice.date)}</div>
-        <div style={S.footerRight}>Thank you for your business.</div>
-      </div>
-
-    </div>
-  )
-}
+        <div style={S.footerCenter}>{invoice.invoiceNumber} · {fmtDate(in

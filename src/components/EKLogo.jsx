@@ -1,6 +1,38 @@
-const LOGO_SRC = './Logo.png';
+import { useState } from 'react'
 
-export default function EKLogo({ size = 44 }) {
+const LOGO_SRC = '/Logo.png';
+
+/** SVG icon version — used when `color` prop is passed or PNG fails to load */
+function LogoIcon({ size, color = '#D42B1A' }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" style={{ display: 'block', flexShrink: 0 }}>
+      {/* E — 3 horizontal rounded bars */}
+      <rect x="6"  y="16" width="56" height="18" rx="9" fill={color}/>
+      <rect x="6"  y="51" width="56" height="18" rx="9" fill={color}/>
+      <rect x="6"  y="86" width="56" height="18" rx="9" fill={color}/>
+      {/* K — vertical spine */}
+      <rect x="72" y="16" width="15" height="88" rx="7" fill={color}/>
+      {/* K — upper arm: from spine centre → upper-right */}
+      <line x1="79" y1="60" x2="110" y2="18"  stroke={color} strokeWidth="18" strokeLinecap="round"/>
+      {/* K — lower arm: from spine centre → lower-right */}
+      <line x1="79" y1="60" x2="110" y2="102" stroke={color} strokeWidth="18" strokeLinecap="round"/>
+    </svg>
+  )
+}
+
+/**
+ * EKLogo — shows the Logo.png by default.
+ * Pass `color` (e.g. "#fff") to force the SVG icon version in that colour,
+ * which is ideal for use on dark/coloured backgrounds.
+ */
+export default function EKLogo({ size = 44, color = null }) {
+  const [imgFailed, setImgFailed] = useState(false)
+
+  // Explicit colour requested OR image failed → use SVG icon
+  if (color || imgFailed) {
+    return <LogoIcon size={size} color={color || '#D42B1A'} />
+  }
+
   return (
     <img
       src={LOGO_SRC}
@@ -8,26 +40,7 @@ export default function EKLogo({ size = 44 }) {
       width={size}
       height={size}
       style={{ objectFit: 'contain', display: 'block', borderRadius: '6px' }}
-      onError={e => {
-        e.currentTarget.onerror = null;
-        e.currentTarget.replaceWith(makeSVG(size));
-      }}
+      onError={() => setImgFailed(true)}
     />
   );
-}
-
-function makeSVG(size) {
-  const ns = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(ns, 'svg');
-  svg.setAttribute('width', size);
-  svg.setAttribute('height', size);
-  svg.setAttribute('viewBox', '0 0 120 120');
-  svg.innerHTML =
-    '<rect x="14" y="22" width="50" height="18" rx="9" fill="#D42B1A"/>' +
-    '<rect x="14" y="51" width="50" height="18" rx="9" fill="#D42B1A"/>' +
-    '<rect x="14" y="80" width="50" height="18" rx="9" fill="#D42B1A"/>' +
-    '<rect x="76" y="22" width="14" height="76" rx="7" fill="#D42B1A"/>' +
-    '<path d="M76 22 L106 51 L76 51 Z" fill="#D42B1A"/>' +
-    '<path d="M76 98 L106 69 L76 69 Z" fill="#D42B1A"/>';
-  return svg;
 }

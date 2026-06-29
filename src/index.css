@@ -1,6 +1,14 @@
 /* ── RESET & CSS VARIABLES ────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* ── PRINT: preserve background colours (dark invoice header/footer) ── */
+@media print {
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
 :root {
   --red:       #D42B1A;
   --red-dark:  #A81F11;
@@ -158,14 +166,4 @@ body {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity .3s, transform .3s, background .2s;
-  box-shadow: 0 4px 20px rgba(212,43,26,.4);
-  z-index: 900;
-  border: none;
-  pointer-events: none;
-}
-#back-top.visible {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-#back-top:hover { background: var(--red-dark); }
+  box-shadow: 0 4px 20px rgba(212,43
