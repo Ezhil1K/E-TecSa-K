@@ -7,14 +7,20 @@ import ArticlesPage from './pages/ArticlesPage'
 import ArticleDetailPage from './pages/ArticleDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
 import PrivacyPage from './pages/PrivacyPage'
+import AdminLogin from './pages/admin/AdminLogin'
+import InvoiceAdminPage from './pages/admin/InvoiceAdminPage'
 import BackToTop from './components/BackToTop'
 import ProgressBar from './components/ProgressBar'
 import CookieBanner from './components/CookieBanner'
 
+const ADMIN_PATHS = ['/admin', '/admin/invoice']
+
 export default function App() {
   const { pathname, hash } = useLocation()
+  const isAdmin = ADMIN_PATHS.some(p => pathname.startsWith(p))
 
   useEffect(() => {
+    if (isAdmin) return
     if (hash) {
       setTimeout(() => {
         const el = document.getElementById(hash.slice(1))
@@ -25,17 +31,26 @@ export default function App() {
     }
   }, [pathname, hash])
 
+  if (isAdmin) {
+    return (
+      <Routes>
+        <Route path="/admin"         element={<AdminLogin />} />
+        <Route path="/admin/invoice" element={<InvoiceAdminPage />} />
+      </Routes>
+    )
+  }
+
   return (
     <>
       <ProgressBar />
       <Navbar />
       <main>
         <Routes>
-          <Route path="/"                  element={<HomePage />} />
-          <Route path="/articles"          element={<ArticlesPage />} />
-          <Route path="/articles/:id"      element={<ArticleDetailPage />} />
-          <Route path="/privacy"           element={<PrivacyPage />} />
-          <Route path="*"                  element={<NotFoundPage />} />
+          <Route path="/"              element={<HomePage />} />
+          <Route path="/articles"      element={<ArticlesPage />} />
+          <Route path="/articles/:id"  element={<ArticleDetailPage />} />
+          <Route path="/privacy"       element={<PrivacyPage />} />
+          <Route path="*"              element={<NotFoundPage />} />
         </Routes>
       </main>
       <Footer />

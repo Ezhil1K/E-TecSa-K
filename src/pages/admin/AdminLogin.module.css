@@ -1,0 +1,87 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f8f8 0%, #FEF0EE 100%);
+  padding: 2rem;
+}
+.card {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 48px rgba(0,0,0,.10);
+  padding: 2.8rem 2.4rem;
+  width: 100%;
+  max-width: 420px;
+}
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.8rem;
+}
+.brandName {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: #0D0D0D;
+  letter-spacing: -.02em;
+}
+.brandSub {
+  font-size: .75rem;
+  color: #D42B1A;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+}
+.title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0D0D0D;
+  margin-bottom: .4rem;
+}
+.desc {
+  font-size: .9rem;
+  color: #7A7A7A;
+  margin-bottom: 1.8rem;
+  line-height: 1.6;
+}
+.form { display: flex; flex-direction: column; gap: 1rem; }
+.input {
+  padding: .85rem 1rem;
+  border: 1.5px solid #E4E4E4;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color .2s;
+}
+.input:focus { border-color: #D42B1A; }
+.error {
+  background: #FEF0EE;
+  color: #D42B1A;
+  font-size: .85rem;
+  font-weight: 600;
+  padding: .6rem 1rem;
+  border-radius: 8px;
+}
+.btn {
+  padding: .9rem;
+  background: #D42B1A;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .2s;
+}
+.btn:hover:not(:disabled) { background: #A81F11; }
+.btn:disabled { opacity: .6; cursor: not-allowed; }
+.back {
+  display: block;
+  text-align: center;
+  margin-top: 1.4rem;
+  font-size: .875rem;
+  color: #7A7A7A;
+  text-decoration: none;
+}
+.back:hover { color: #D42B1A; }
