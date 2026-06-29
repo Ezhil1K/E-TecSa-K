@@ -13,11 +13,9 @@ import BackToTop from './components/BackToTop'
 import ProgressBar from './components/ProgressBar'
 import CookieBanner from './components/CookieBanner'
 
-const ADMIN_PATHS = ['/admin', '/admin/invoice']
-
 export default function App() {
   const { pathname, hash } = useLocation()
-  const isAdmin = ADMIN_PATHS.some(p => pathname.startsWith(p))
+  const isAdmin = pathname.startsWith('/admin')
 
   useEffect(() => {
     if (isAdmin) return
@@ -31,31 +29,22 @@ export default function App() {
     }
   }, [pathname, hash])
 
-  if (isAdmin) {
-    return (
-      <Routes>
-        <Route path="/admin"         element={<AdminLogin />} />
-        <Route path="/admin/invoice" element={<InvoiceAdminPage />} />
-      </Routes>
-    )
-  }
-
   return (
     <>
-      <ProgressBar />
-      <Navbar />
-      <main>
-        <Routes>
-          <Route path="/"              element={<HomePage />} />
-          <Route path="/articles"      element={<ArticlesPage />} />
-          <Route path="/articles/:id"  element={<ArticleDetailPage />} />
-          <Route path="/privacy"       element={<PrivacyPage />} />
-          <Route path="*"              element={<NotFoundPage />} />
-        </Routes>
-      </main>
-      <Footer />
-      <BackToTop />
-      <CookieBanner />
+      {!isAdmin && <ProgressBar />}
+      {!isAdmin && <Navbar />}
+      <Routes>
+        <Route path="/"              element={<HomePage />} />
+        <Route path="/articles"      element={<ArticlesPage />} />
+        <Route path="/articles/:id"  element={<ArticleDetailPage />} />
+        <Route path="/privacy"       element={<PrivacyPage />} />
+        <Route path="/admin"         element={<AdminLogin />} />
+        <Route path="/admin/invoice" element={<InvoiceAdminPage />} />
+        <Route path="*"              element={<NotFoundPage />} />
+      </Routes>
+      {!isAdmin && <Footer />}
+      {!isAdmin && <BackToTop />}
+      {!isAdmin && <CookieBanner />}
     </>
   )
 }
