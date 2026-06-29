@@ -97,7 +97,7 @@ export default function InvoiceTemplate({ invoice }) {
       <div style={S.header}>
         <div style={S.logoArea}>
           <div style={S.logoRow}>
-            <img src="/LogoTransparent.png" alt="E-TecSa-K" width={36} height={36} style={{ objectFit:'contain', display:'block' }} />
+            <img src="/Logo.png" alt="E-TecSa-K" width={36} height={36} style={{ objectFit:'contain', display:'block', mixBlendMode:'multiply' }} />
             <div style={S.companyName}>{c.name || 'E-TecSa-K'}</div>
           </div>
           {c.subtitle && <div style={S.companySubtitle}>{c.subtitle}</div>}
@@ -241,7 +241,7 @@ export default function InvoiceTemplate({ invoice }) {
       {/* FOOTER */}
       <div style={S.footer}>
         <div style={S.footerLeft}>
-          <img src="/LogoTransparent.png" alt="E-TecSa-K" width={22} height={22} style={{ objectFit:'contain', display:'block', filter:'brightness(0) invert(1)' }} />
+          <img src="/Logo.png" alt="E-TecSa-K" width={22} height={22} style={{ objectFit:'contain', display:'block', mixBlendMode:'multiply' }} />
           <span style={S.footerBrand}>{c.name || 'E-TecSa-K'}</span>
         </div>
         <div style={S.footerCenter}>{invoice.invoiceNumber}{' · '}{fmtDate(invoice.date)}</div>
