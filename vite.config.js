@@ -10,7 +10,7 @@ export default defineConfig({
       name: 'inject-google-analytics',
       transformIndexHtml(html) {
         const gaScript = [
-          '<\!-- Google Analytics -->',
+          '<!-- Google Analytics -->',
           '<script async src="https://www.googletagmanager.com/gtag/js?id=' + GA_ID + '"></script>',
           '<script>',
           '  window.dataLayer = window.dataLayer || [];',
@@ -23,5 +23,5 @@ export default defineConfig({
       },
     },
   ],
-  base: './',
+  base: '/',
 })
