@@ -233,4 +233,10 @@ export default function InvoiceTemplate({ invoice }) {
           <EKLogo size={22} color="#fff" />
           <span style={S.footerBrand}>{c.name || 'E-TecSa-K'}</span>
         </div>
-        <div style={S.footerCenter}>{invoice.invoiceNumber} · {fmtDate(in
+        <div style={S.footerCenter}>{invoice.invoiceNumber}{' · '}{fmtDate(invoice.date)}</div>
+        <div style={S.footerRight}>Thank you for your business.</div>
+      </div>
+
+    </div>
+  )
+}
