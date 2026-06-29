@@ -16,19 +16,19 @@ const S = {
   // Outer wrapper — Inter font everywhere, matching brand
   wrap: { fontFamily: "'Inter', sans-serif", fontSize: '11px', color: BRAND.dark, background: BRAND.white, width: '100%', maxWidth: '900px', margin: '0 auto', boxShadow: '0 4px 32px rgba(212,43,26,.10)', borderRadius: '4px', overflow: 'hidden' },
 
-  // Header — brand red background
-  header: { background: BRAND.red, color: BRAND.white, padding: '2rem 2.2rem', display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
+  // Header — light gray background
+  header: { background: '#F5F5F5', color: BRAND.dark, padding: '2rem 2.2rem', display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
   logoArea: { display: 'flex', flexDirection: 'column', gap: '.3rem' },
   logoRow: { display: 'flex', alignItems: 'center', gap: '.6rem', marginBottom: '.4rem' },
-  companyName: { fontSize: '18px', fontWeight: '900', color: BRAND.white, letterSpacing: '-.02em' },
-  companySubtitle: { fontSize: '10px', color: 'rgba(255,255,255,.75)', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: '700' },
-  companyDetail: { fontSize: '10px', color: 'rgba(255,255,255,.80)', lineHeight: '1.7' },
+  companyName: { fontSize: '18px', fontWeight: '900', color: BRAND.red, letterSpacing: '-.02em' },
+  companySubtitle: { fontSize: '10px', color: BRAND.muted, textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: '700' },
+  companyDetail: { fontSize: '10px', color: BRAND.mid, lineHeight: '1.7' },
   invoiceRight: { textAlign: 'right', minWidth: '220px' },
-  invoiceTitle: { fontSize: '36px', fontWeight: '900', color: 'rgba(255,255,255,.18)', letterSpacing: '.06em', textTransform: 'uppercase', lineHeight: '1', marginBottom: '.6rem' },
+  invoiceTitle: { fontSize: '36px', fontWeight: '900', color: 'rgba(0,0,0,.10)', letterSpacing: '.06em', textTransform: 'uppercase', lineHeight: '1', marginBottom: '.6rem' },
   invoiceGrid: { display: 'flex', flexDirection: 'column', gap: '.25rem' },
   invoiceRow: { display: 'flex', justifyContent: 'space-between', gap: '1.5rem', alignItems: 'center' },
-  invoiceLabel: { fontSize: '9px', color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.1em', fontWeight: '600' },
-  invoiceValue: { fontSize: '11px', fontWeight: '700', color: BRAND.white },
+  invoiceLabel: { fontSize: '9px', color: BRAND.muted, textTransform: 'uppercase', letterSpacing: '.1em', fontWeight: '600' },
+  invoiceValue: { fontSize: '11px', fontWeight: '700', color: BRAND.dark },
 
   // Body
   body: { padding: '2rem 2.2rem' },
@@ -74,12 +74,12 @@ const S = {
   sigLabel: { fontSize: '10px', fontWeight: '700', color: BRAND.dark },
   sigSub: { fontSize: '10px', color: BRAND.muted },
 
-  // Footer — brand dark
-  footer: { background: BRAND.dark, padding: '1rem 2.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
+  // Footer — light gray
+  footer: { background: '#F5F5F5', padding: '1rem 2.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact', borderTop: `2px solid ${BRAND.red}` },
   footerLeft: { display: 'flex', alignItems: 'center', gap: '.5rem' },
-  footerBrand: { fontSize: '12px', fontWeight: '900', color: BRAND.white },
-  footerCenter: { fontSize: '10px', color: 'rgba(255,255,255,.5)' },
-  footerRight: { fontSize: '10px', color: BRAND.red, fontStyle: 'italic' },
+  footerBrand: { fontSize: '12px', fontWeight: '900', color: BRAND.red },
+  footerCenter: { fontSize: '10px', color: BRAND.muted },
+  footerRight: { fontSize: '10px', color: BRAND.muted, fontStyle: 'italic' },
 }
 
 export default function InvoiceTemplate({ invoice }) {
