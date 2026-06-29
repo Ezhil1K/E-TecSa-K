@@ -1,74 +1,85 @@
-import EKLogo from '../EKLogo'
 import { calcTotals, fmtCurrency, fmtDate } from '../../utils/invoiceStorage'
 
-const S = {
-  // Outer wrapper
-  wrap: { fontFamily: "'Inter', sans-serif", fontSize: '11px', color: '#1a1a1a', background: '#fff', width: '100%', maxWidth: '900px', margin: '0 auto', boxShadow: '0 4px 32px rgba(0,0,0,.10)', borderRadius: '4px', overflow: 'hidden' },
+/* Brand palette */
+const BRAND = {
+  red:      '#D42B1A',
+  redDark:  '#A81F11',
+  redPale:  '#FEF0EE',
+  dark:     '#0D0D0D',
+  mid:      '#3A3A3A',
+  muted:    '#7A7A7A',
+  border:   '#E4E4E4',
+  white:    '#FFFFFF',
+}
 
-  // Header
-  header: { background: '#1B2B4B', color: '#fff', padding: '2rem 2.2rem', display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
+const S = {
+  // Outer wrapper — Inter font everywhere, matching brand
+  wrap: { fontFamily: "'Inter', sans-serif", fontSize: '11px', color: BRAND.dark, background: BRAND.white, width: '100%', maxWidth: '900px', margin: '0 auto', boxShadow: '0 4px 32px rgba(212,43,26,.10)', borderRadius: '4px', overflow: 'hidden' },
+
+  // Header — brand red background
+  header: { background: BRAND.red, color: BRAND.white, padding: '2rem 2.2rem', display: 'grid', gridTemplateColumns: '1fr auto', gap: '2rem', alignItems: 'start', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
   logoArea: { display: 'flex', flexDirection: 'column', gap: '.3rem' },
   logoRow: { display: 'flex', alignItems: 'center', gap: '.6rem', marginBottom: '.4rem' },
-  companyName: { fontSize: '18px', fontWeight: '900', color: '#fff', letterSpacing: '-.02em' },
-  companySubtitle: { fontSize: '10px', color: 'rgba(255,255,255,.65)', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: '600' },
-  companyDetail: { fontSize: '10px', color: 'rgba(255,255,255,.75)', lineHeight: '1.7' },
+  companyName: { fontSize: '18px', fontWeight: '900', color: BRAND.white, letterSpacing: '-.02em' },
+  companySubtitle: { fontSize: '10px', color: 'rgba(255,255,255,.75)', textTransform: 'uppercase', letterSpacing: '.08em', fontWeight: '700' },
+  companyDetail: { fontSize: '10px', color: 'rgba(255,255,255,.80)', lineHeight: '1.7' },
   invoiceRight: { textAlign: 'right', minWidth: '220px' },
-  invoiceTitle: { fontSize: '36px', fontWeight: '900', color: 'rgba(255,255,255,.15)', letterSpacing: '.06em', textTransform: 'uppercase', lineHeight: '1', marginBottom: '.6rem' },
+  invoiceTitle: { fontSize: '36px', fontWeight: '900', color: 'rgba(255,255,255,.18)', letterSpacing: '.06em', textTransform: 'uppercase', lineHeight: '1', marginBottom: '.6rem' },
   invoiceGrid: { display: 'flex', flexDirection: 'column', gap: '.25rem' },
   invoiceRow: { display: 'flex', justifyContent: 'space-between', gap: '1.5rem', alignItems: 'center' },
-  invoiceLabel: { fontSize: '9px', color: 'rgba(255,255,255,.5)', textTransform: 'uppercase', letterSpacing: '.1em', fontWeight: '600' },
-  invoiceValue: { fontSize: '11px', fontWeight: '700', color: '#fff' },
+  invoiceLabel: { fontSize: '9px', color: 'rgba(255,255,255,.6)', textTransform: 'uppercase', letterSpacing: '.1em', fontWeight: '600' },
+  invoiceValue: { fontSize: '11px', fontWeight: '700', color: BRAND.white },
 
   // Body
   body: { padding: '2rem 2.2rem' },
 
   // Bill To + Summary
-  topRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid #eee' },
-  sectionLabel: { fontSize: '9px', fontWeight: '800', color: '#D42B1A', textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: '.6rem' },
-  clientName: { fontSize: '14px', fontWeight: '800', color: '#1a1a1a', marginBottom: '.2rem' },
-  clientDetail: { fontSize: '10px', color: '#555', lineHeight: '1.7' },
+  topRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: `1px solid ${BRAND.border}` },
+  sectionLabel: { fontSize: '9px', fontWeight: '800', color: BRAND.red, textTransform: 'uppercase', letterSpacing: '.15em', marginBottom: '.6rem' },
+  clientName: { fontSize: '14px', fontWeight: '800', color: BRAND.dark, marginBottom: '.2rem' },
+  clientDetail: { fontSize: '10px', color: BRAND.mid, lineHeight: '1.7' },
   summaryRight: { textAlign: 'right' },
   summaryRow: { display: 'flex', justifyContent: 'space-between', gap: '2rem', marginBottom: '.35rem' },
-  summaryLabel: { fontSize: '10px', color: '#777' },
-  summaryValue: { fontSize: '10px', color: '#1a1a1a', fontWeight: '600' },
-  amountDueLabel: { fontSize: '10px', color: '#777', marginTop: '.5rem' },
-  amountDueValue: { fontSize: '22px', fontWeight: '900', color: '#1a1a1a', letterSpacing: '-.02em' },
+  summaryLabel: { fontSize: '10px', color: BRAND.muted },
+  summaryValue: { fontSize: '10px', color: BRAND.dark, fontWeight: '600' },
+  amountDueLabel: { fontSize: '10px', color: BRAND.muted, marginTop: '.5rem' },
+  amountDueValue: { fontSize: '22px', fontWeight: '900', color: BRAND.red, letterSpacing: '-.02em' },
 
   // Services table
   tableSection: { marginBottom: '1.5rem' },
   table: { width: '100%', borderCollapse: 'collapse' },
-  thead: { borderBottom: '2px solid #D42B1A' },
-  th: { fontSize: '9px', fontWeight: '800', color: '#D42B1A', textTransform: 'uppercase', letterSpacing: '.12em', padding: '.5rem .4rem', textAlign: 'left' },
-  thRight: { fontSize: '9px', fontWeight: '800', color: '#D42B1A', textTransform: 'uppercase', letterSpacing: '.12em', padding: '.5rem .4rem', textAlign: 'right' },
-  td: { padding: '.55rem .4rem', fontSize: '11px', color: '#333', borderBottom: '1px solid #f0f0f0', verticalAlign: 'top' },
-  tdRight: { padding: '.55rem .4rem', fontSize: '11px', color: '#333', borderBottom: '1px solid #f0f0f0', textAlign: 'right' },
+  thead: { borderBottom: `2px solid ${BRAND.red}` },
+  th: { fontSize: '9px', fontWeight: '800', color: BRAND.red, textTransform: 'uppercase', letterSpacing: '.12em', padding: '.5rem .4rem', textAlign: 'left' },
+  thRight: { fontSize: '9px', fontWeight: '800', color: BRAND.red, textTransform: 'uppercase', letterSpacing: '.12em', padding: '.5rem .4rem', textAlign: 'right' },
+  td: { padding: '.55rem .4rem', fontSize: '11px', color: BRAND.mid, borderBottom: `1px solid ${BRAND.border}`, verticalAlign: 'top' },
+  tdRight: { padding: '.55rem .4rem', fontSize: '11px', color: BRAND.mid, borderBottom: `1px solid ${BRAND.border}`, textAlign: 'right' },
   totalsRow: { display: 'flex', justifyContent: 'flex-end', paddingTop: '.4rem' },
   totalsTable: { minWidth: '280px' },
-  totalRow: { display: 'flex', justifyContent: 'space-between', padding: '.3rem 0', fontSize: '10px', color: '#555' },
-  totalRowFinal: { display: 'flex', justifyContent: 'space-between', padding: '.5rem .6rem', fontSize: '12px', fontWeight: '800', color: '#1a1a1a', background: '#f5f5f5', borderRadius: '4px', marginTop: '.3rem' },
+  totalRow: { display: 'flex', justifyContent: 'space-between', padding: '.3rem 0', fontSize: '10px', color: BRAND.muted },
+  totalRowFinal: { display: 'flex', justifyContent: 'space-between', padding: '.5rem .6rem', fontSize: '12px', fontWeight: '900', color: BRAND.white, background: BRAND.red, borderRadius: '4px', marginTop: '.3rem' },
 
   // Tax note
-  taxNote: { background: '#FEF0EE', border: '1px solid rgba(212,43,26,.2)', borderRadius: '6px', padding: '.7rem 1rem', fontSize: '10px', color: '#555', lineHeight: '1.6', marginBottom: '1.5rem' },
-  taxNoteLabel: { fontSize: '9px', fontWeight: '800', color: '#D42B1A', textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: '.3rem' },
+  taxNote: { background: BRAND.redPale, border: `1px solid rgba(212,43,26,.2)`, borderRadius: '6px', padding: '.7rem 1rem', fontSize: '10px', color: BRAND.mid, lineHeight: '1.6', marginBottom: '1.5rem' },
+  taxNoteLabel: { fontSize: '9px', fontWeight: '800', color: BRAND.red, textTransform: 'uppercase', letterSpacing: '.12em', marginBottom: '.3rem' },
 
   // Bottom two-col
-  bottomRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '1.5rem', paddingTop: '1rem', borderTop: '1px solid #eee' },
+  bottomRow: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '1.5rem', paddingTop: '1rem', borderTop: `1px solid ${BRAND.border}` },
   bankRow: { display: 'flex', gap: '1rem', marginBottom: '.3rem', fontSize: '10px' },
-  bankLabel: { color: '#888', minWidth: '90px', flexShrink: '0' },
-  bankValue: { color: '#1a1a1a', fontWeight: '600' },
+  bankLabel: { color: BRAND.muted, minWidth: '90px', flexShrink: '0' },
+  bankValue: { color: BRAND.dark, fontWeight: '600' },
 
   // Signature
-  sigSection: { borderTop: '1px solid #eee', paddingTop: '1.2rem', marginBottom: '1.5rem' },
-  sigLine: { width: '180px', borderBottom: '1.5px solid #1a1a1a', marginTop: '2rem', marginBottom: '.4rem' },
-  sigLabel: { fontSize: '10px', fontWeight: '700', color: '#1a1a1a' },
-  sigSub: { fontSize: '10px', color: '#777' },
+  sigSection: { borderTop: `1px solid ${BRAND.border}`, paddingTop: '1.2rem', marginBottom: '1.5rem' },
+  sigLine: { width: '180px', borderBottom: `1.5px solid ${BRAND.dark}`, marginTop: '2rem', marginBottom: '.4rem' },
+  sigLabel: { fontSize: '10px', fontWeight: '700', color: BRAND.dark },
+  sigSub: { fontSize: '10px', color: BRAND.muted },
 
-  // Footer
-  footer: { background: '#1B2B4B', padding: '1rem 2.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
+  // Footer — brand dark
+  footer: { background: BRAND.dark, padding: '1rem 2.2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', WebkitPrintColorAdjust: 'exact', printColorAdjust: 'exact' },
   footerLeft: { display: 'flex', alignItems: 'center', gap: '.5rem' },
-  footerBrand: { fontSize: '12px', fontWeight: '800', color: '#fff' },
-  footerCenter: { fontSize: '10px', color: 'rgba(255,255,255,.6)' },
-  footerRight: { fontSize: '10px', color: 'rgba(255,255,255,.6)', fontStyle: 'italic' },
+  footerBrand: { fontSize: '12px', fontWeight: '900', color: BRAND.white },
+  footerCenter: { fontSize: '10px', color: 'rgba(255,255,255,.5)' },
+  footerRight: { fontSize: '10px', color: BRAND.red, fontStyle: 'italic' },
 }
 
 export default function InvoiceTemplate({ invoice }) {
@@ -86,7 +97,7 @@ export default function InvoiceTemplate({ invoice }) {
       <div style={S.header}>
         <div style={S.logoArea}>
           <div style={S.logoRow}>
-            <EKLogo size={36} color="#fff" />
+            <img src="/LogoTransparent.png" alt="E-TecSa-K" width={36} height={36} style={{ objectFit:'contain', display:'block' }} />
             <div style={S.companyName}>{c.name || 'E-TecSa-K'}</div>
           </div>
           {c.subtitle && <div style={S.companySubtitle}>{c.subtitle}</div>}
@@ -230,7 +241,7 @@ export default function InvoiceTemplate({ invoice }) {
       {/* FOOTER */}
       <div style={S.footer}>
         <div style={S.footerLeft}>
-          <EKLogo size={22} color="#fff" />
+          <img src="/LogoTransparent.png" alt="E-TecSa-K" width={22} height={22} style={{ objectFit:'contain', display:'block', filter:'brightness(0) invert(1)' }} />
           <span style={S.footerBrand}>{c.name || 'E-TecSa-K'}</span>
         </div>
         <div style={S.footerCenter}>{invoice.invoiceNumber}{' · '}{fmtDate(invoice.date)}</div>
