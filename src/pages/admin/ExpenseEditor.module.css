@@ -14,14 +14,32 @@
   border-bottom: 1.5px solid #eee;
 }
 
+/* Wrapper for main row + rate-note sub-row */
+.itemBlock {
+  border-bottom: 1px solid #f0f0f0;
+}
+.itemBlock:last-of-type {
+  border-bottom: none;
+}
+
 .itemRow {
   display: flex;
   gap: .5rem;
   align-items: center;
-  padding: .5rem .8rem;
-  border-bottom: 1px solid #f5f5f5;
+  padding: .5rem .8rem .3rem;
 }
 
-.itemRow:last-of-type {
-  border-bottom: none;
+/* Rate note sub-row — sits directly under the main row */
+.rateNoteRow {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .1rem .8rem .45rem 2.6rem; /* indent past the # column */
+}
+
+.rateNoteLabel {
+  font-size: .75rem;
+  color: #94A3B8;
+  white-space: nowrap;
+  flex-shrink: 0;
 }

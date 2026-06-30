@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import ExpenseTemplate from '../../components/expense/ExpenseTemplate'
 import { saveExpense, calcExpenseTotals, EXPENSE_CATEGORIES } from '../../utils/expenseStorage'
-import styles from './InvoiceEditor.module.css'  /* reuse same CSS */
+import styles from './InvoiceEditor.module.css'
 import expStyles from './ExpenseEditor.module.css'
 
 const STATUSES = ['draft', 'submitted', 'approved']
@@ -11,7 +10,6 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
   const [exp, setExp]     = useState(initial)
   const [tab, setTab]     = useState('form')
   const [saved, setSaved] = useState(false)
-  const navigate          = useNavigate()
 
   /* ── Deep-path updater ── */
   function update(path, value) {
@@ -39,7 +37,13 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
     const today = new Date().toISOString().split('T')[0]
     setExp(prev => ({
       ...prev,
-      items: [...prev.items, { id: Date.now(), date: today, category: '', description: '', receiptNo: '', amountINR: '' }],
+      items: [...prev.items, {
+        id: Date.now(), date: today,
+        category: '', description: '', receiptNo: '',
+        amountINR: '',
+        rate: prev.exchangeRate || '90.00',  /* inherit default rate */
+        rateNote: '',
+      }],
     }))
   }
 
@@ -59,10 +63,10 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
     setTimeout(() => window.print(), 300)
   }
 
-  const { totalINR, totalEUR, rate } = calcExpenseTotals(exp)
+  const { totalINR, totalEUR, defaultRate } = calcExpenseTotals(exp)
 
-  /* ── Shared input style ── */
-  const inp = { padding: '.6rem .8rem', border: '1.5px solid #E4E4E4', borderRadius: '8px', fontSize: '.9rem', color: '#1a1a1a', outline: 'none', fontFamily: 'inherit', background: '#fff', width: '100%', boxSizing: 'border-box' }
+  /* ── Shared input styles ── */
+  const inp   = { padding: '.6rem .8rem', border: '1.5px solid #E4E4E4', borderRadius: '8px', fontSize: '.9rem', color: '#1a1a1a', outline: 'none', fontFamily: 'inherit', background: '#fff', width: '100%', boxSizing: 'border-box' }
   const inpSm = { ...inp, padding: '.5rem .6rem', fontSize: '.875rem', borderRadius: '6px' }
 
   return (
@@ -128,7 +132,7 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                 </div>
 
                 <div className={styles.field}>
-                  <label>Exchange Rate (₹ per €)</label>
+                  <label>Default Rate for New Rows (₹ per €)</label>
                   <input style={inp} type="number" step="0.01" min="1" value={exp.exchangeRate}
                     onChange={e => update('exchangeRate', e.target.value)} />
                 </div>
@@ -213,60 +217,101 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
               </div>
             </section>
 
-            {/* Expense Items */}
+            {/* ── Expense Items ── */}
             <section className={styles.section}>
               <h3 className={styles.sectionTitle}>Expense Items</h3>
 
-              {/* Datalist for categories */}
               <datalist id="exp-cat-list">
                 {EXPENSE_CATEGORIES.map(c => <option key={c} value={c} />)}
               </datalist>
 
               <div className={styles.itemsTable}>
+
                 {/* Column headers */}
                 <div className={expStyles.itemHeader}>
-                  <span style={{ width: '24px', textAlign: 'center' }}>#</span>
-                  <span style={{ width: '110px' }}>Date</span>
-                  <span style={{ width: '130px' }}>Category</span>
+                  <span style={{ width: '22px', textAlign: 'center' }}>#</span>
+                  <span style={{ width: '108px' }}>Date</span>
+                  <span style={{ width: '120px' }}>Category</span>
                   <span style={{ flex: 1 }}>Description</span>
-                  <span style={{ width: '90px' }}>Receipt No.</span>
-                  <span style={{ width: '100px', textAlign: 'right' }}>Amount ₹</span>
-                  <span style={{ width: '90px', textAlign: 'right', color: '#166534' }}>EUR</span>
-                  <span style={{ width: '30px' }}></span>
+                  <span style={{ width: '80px' }}>Receipt No.</span>
+                  <span style={{ width: '82px', textAlign: 'right' }}>₹/€ Rate</span>
+                  <span style={{ width: '92px', textAlign: 'right' }}>Amount ₹</span>
+                  <span style={{ width: '86px', textAlign: 'right', color: '#166534' }}>EUR</span>
+                  <span style={{ width: '28px' }}></span>
                 </div>
 
                 {exp.items.map((item, i) => {
-                  const inr = parseFloat(item.amountINR) || 0
-                  const eur = inr / rate
+                  const inr      = parseFloat(item.amountINR) || 0
+                  const itemRate = parseFloat(item.rate) || defaultRate
+                  const eur      = inr / itemRate
+
                   return (
-                    <div key={item.id} className={expStyles.itemRow}>
-                      <span style={{ width: '24px', textAlign: 'center', color: '#94A3B8', fontSize: '.8rem', flexShrink: 0 }}>{i + 1}</span>
-                      <div style={{ width: '110px', flexShrink: 0 }}>
-                        <input style={inpSm} type="date" value={item.date || ''}
-                          onChange={e => updateItem(item.id, 'date', e.target.value)} />
-                      </div>
-                      <div style={{ width: '130px', flexShrink: 0 }}>
-                        <input style={inpSm} list="exp-cat-list" placeholder="Category…" value={item.category || ''}
-                          onChange={e => updateItem(item.id, 'category', e.target.value)} />
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <input style={inpSm} placeholder="Description" value={item.description || ''}
-                          onChange={e => updateItem(item.id, 'description', e.target.value)} />
-                      </div>
-                      <div style={{ width: '90px', flexShrink: 0 }}>
-                        <input style={inpSm} placeholder="REC-001" value={item.receiptNo || ''}
-                          onChange={e => updateItem(item.id, 'receiptNo', e.target.value)} />
-                      </div>
-                      <div style={{ width: '100px', flexShrink: 0 }}>
-                        <input style={{ ...inpSm, textAlign: 'right' }} type="number" min="0" step="0.01" placeholder="0.00" value={item.amountINR}
-                          onChange={e => updateItem(item.id, 'amountINR', e.target.value)} />
-                      </div>
-                      <div style={{ width: '90px', flexShrink: 0 }}>
-                        <div style={{ ...inpSm, textAlign: 'right', background: '#F0FDF4', color: '#166534', fontWeight: '700', border: '1.5px solid #D1FAE5', userSelect: 'none' }}>
-                          {'€ '}{eur.toFixed(2)}
+                    <div key={item.id} className={expStyles.itemBlock}>
+
+                      {/* ── Main row ── */}
+                      <div className={expStyles.itemRow}>
+                        <span style={{ width: '22px', textAlign: 'center', color: '#94A3B8', fontSize: '.8rem', flexShrink: 0 }}>{i + 1}</span>
+
+                        <div style={{ width: '108px', flexShrink: 0 }}>
+                          <input style={inpSm} type="date" value={item.date || ''}
+                            onChange={e => updateItem(item.id, 'date', e.target.value)} />
                         </div>
+
+                        <div style={{ width: '120px', flexShrink: 0 }}>
+                          <input style={inpSm} list="exp-cat-list" placeholder="Category…" value={item.category || ''}
+                            onChange={e => updateItem(item.id, 'category', e.target.value)} />
+                        </div>
+
+                        <div style={{ flex: 1 }}>
+                          <input style={inpSm} placeholder="Description" value={item.description || ''}
+                            onChange={e => updateItem(item.id, 'description', e.target.value)} />
+                        </div>
+
+                        <div style={{ width: '80px', flexShrink: 0 }}>
+                          <input style={inpSm} placeholder="REC-001" value={item.receiptNo || ''}
+                            onChange={e => updateItem(item.id, 'receiptNo', e.target.value)} />
+                        </div>
+
+                        {/* Per-row exchange rate */}
+                        <div style={{ width: '82px', flexShrink: 0 }}>
+                          <input
+                            style={{ ...inpSm, textAlign: 'right', background: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', fontWeight: '700' }}
+                            type="number" step="0.01" min="1"
+                            value={item.rate || ''}
+                            placeholder={defaultRate}
+                            onChange={e => updateItem(item.id, 'rate', e.target.value)}
+                            title="Exchange rate on this transaction's date"
+                          />
+                        </div>
+
+                        {/* INR amount */}
+                        <div style={{ width: '92px', flexShrink: 0 }}>
+                          <input style={{ ...inpSm, textAlign: 'right' }} type="number" min="0" step="0.01" placeholder="0.00"
+                            value={item.amountINR}
+                            onChange={e => updateItem(item.id, 'amountINR', e.target.value)} />
+                        </div>
+
+                        {/* EUR auto-calculated */}
+                        <div style={{ width: '86px', flexShrink: 0 }}>
+                          <div style={{ ...inpSm, textAlign: 'right', background: '#F0FDF4', color: '#166534', fontWeight: '700', border: '1.5px solid #D1FAE5', userSelect: 'none' }}>
+                            {'€ '}{eur.toFixed(2)}
+                          </div>
+                        </div>
+
+                        <button className={styles.removeBtn} onClick={() => removeItem(item.id)} title="Remove">×</button>
                       </div>
-                      <button className={styles.removeBtn} onClick={() => removeItem(item.id)} title="Remove">×</button>
+
+                      {/* ── Rate note sub-row ── */}
+                      <div className={expStyles.rateNoteRow}>
+                        <span className={expStyles.rateNoteLabel}>📝 Rate note:</span>
+                        <input
+                          style={{ ...inpSm, flex: 1, fontSize: '.8rem', color: '#555', background: '#FAFAFA', borderColor: '#EEE' }}
+                          placeholder={`e.g. HDFC bank forex rate on ${item.date || 'transaction date'} — ₹${item.rate || defaultRate}/€`}
+                          value={item.rateNote || ''}
+                          onChange={e => updateItem(item.id, 'rateNote', e.target.value)}
+                        />
+                      </div>
+
                     </div>
                   )
                 })}
@@ -285,7 +330,7 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                   <span>{'₹ '}{totalINR.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
                 <div className={styles.totalRow}>
-                  <span>{'Subtotal (€ EUR)'}</span>
+                  <span>{'Subtotal (€ EUR)  — per-transaction rates applied'}</span>
                   <span style={{ color: '#166534', fontWeight: '700' }}>{'€ '}{totalEUR.toFixed(2)}</span>
                 </div>
                 <div className={styles.totalRowFinal}>
