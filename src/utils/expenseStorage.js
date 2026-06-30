@@ -44,14 +44,13 @@ export function nextExpenseNumber() {
 }
 
 export function calcExpenseTotals(expense) {
-  const defaultRate = parseFloat(expense.exchangeRate) || 90
   const totalINR = (expense.items || []).reduce((s, it) => s + (parseFloat(it.amountINR) || 0), 0)
   const totalEUR = (expense.items || []).reduce((s, it) => {
     const inr  = parseFloat(it.amountINR) || 0
-    const rate = parseFloat(it.rate) || defaultRate
-    return s + (inr / rate)
+    const rate = parseFloat(it.rate) || 0
+    return rate > 0 ? s + (inr / rate) : s
   }, 0)
-  return { totalINR, totalEUR, defaultRate }
+  return { totalINR, totalEUR, defaultRate: 0 }
 }
 
 export function fmtINR(val) {
@@ -79,7 +78,6 @@ export function createBlankExpense() {
     submissionDate: fmt(today),
     periodFrom: fmt(first),
     periodTo: fmt(today),
-    exchangeRate: '90.00',
     company: { ...DEFAULT_COMPANY },
     client: {
       name: 'SAFECHEM Europe GmbH',

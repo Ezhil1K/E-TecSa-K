@@ -41,8 +41,7 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
         id: Date.now(), date: today,
         category: '', description: '', receiptNo: '',
         amountINR: '',
-        rate: prev.exchangeRate || '90.00',  /* inherit default rate */
-        rateNote: '',
+        rate: '',
       }],
     }))
   }
@@ -132,23 +131,9 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                 </div>
 
                 <div className={styles.field}>
-                  <label>Default Rate for New Rows (₹ per €)</label>
-                  <input style={inp} type="number" step="0.01" min="1" value={exp.exchangeRate}
-                    onChange={e => update('exchangeRate', e.target.value)} />
-                </div>
-
-                <div className={styles.field}>
                   <label>Project / Service</label>
                   <input style={inp} value={exp.project}
                     onChange={e => update('project', e.target.value)} />
-                </div>
-
-                <div className={styles.fieldFull}>
-                  <label>Exchange Rate Remarks (shown on report)</label>
-                  <textarea style={{ ...inp, minHeight: '60px', resize: 'vertical', fontSize: '.875rem' }}
-                    placeholder="e.g. Rates are actual bank/transfer rates on each transaction date, as per attached bank statements."
-                    value={exp.rateRemarks || ''}
-                    onChange={e => update('rateRemarks', e.target.value)} />
                 </div>
 
               </div>
@@ -338,6 +323,19 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                   </span>
                 </div>
               </div>
+              {/* Exchange Rate Remarks — single note for the whole report */}
+              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '.35rem' }}>
+                <label style={{ fontSize: '.75rem', fontWeight: '700', color: '#666', textTransform: 'uppercase', letterSpacing: '.08em' }}>
+                  Exchange Rate Remarks
+                </label>
+                <textarea
+                  style={{ ...inp, minHeight: '52px', resize: 'vertical', fontSize: '.875rem', borderColor: '#FDE68A', background: '#FFFBEB', color: '#78350F' }}
+                  placeholder="e.g. Rates are actual bank/transfer rates on each transaction date, as evidenced by attached bank statements."
+                  value={exp.rateRemarks || ''}
+                  onChange={e => update('rateRemarks', e.target.value)}
+                />
+              </div>
+
             </section>
 
             {/* Declaration */}
