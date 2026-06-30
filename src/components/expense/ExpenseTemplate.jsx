@@ -202,13 +202,9 @@ export default function ExpenseTemplate({ expense }) {
           </div>
         </div>
 
-        {/* Exchange rate notice — per-transaction */}
+        {/* Exchange rate remarks */}
         <div style={S.rateNotice}>
-          EUR amounts converted at individual transaction-date rates
-          {' · '}
-          All INR receipts attached
-          {' · '}
-          Rate per row shown in the highlighted column
+          {expense.rateRemarks || 'EUR amounts converted at individual transaction-date rates. Rate per row shown in highlighted column. All INR receipts attached.'}
         </div>
 
         {/* Expense Table */}
@@ -239,11 +235,7 @@ export default function ExpenseTemplate({ expense }) {
                     <td style={S.td}>{item.category || '—'}</td>
                     <td style={S.td}>
                       <div>{item.description || '—'}</div>
-                      {item.rateNote && (
-                        <div style={{ fontSize: '8.5px', color: BRAND.muted, fontStyle: 'italic', marginTop: '2px' }}>
-                          {item.rateNote}
-                        </div>
-                      )}
+
                     </td>
                     <td style={S.td}>{item.receiptNo || '—'}</td>
                     <td style={S.tdRight}>
@@ -315,33 +307,4 @@ export default function ExpenseTemplate({ expense }) {
         <div style={S.attachNote}>All receipts are attached in chronological order corresponding to the expense entries above.</div>
 
         {/* Signature */}
-        <div style={S.sigSection}>
-          <div style={S.sectionLabel}>Signatory for Submission</div>
-          <div style={S.sigLine} />
-          <div style={S.sigLabel}>{expense.submittedBy || 'Authorised Signatory'}</div>
-          <div style={S.sigSub}>{expense.designation || ''}</div>
-          <div style={S.sigSub}>Date: {fmtDate(expense.submissionDate)}</div>
-        </div>
-
-        {/* Notes */}
-        {expense.notes && (
-          <div style={{ fontSize: '10px', color: BRAND.muted, fontStyle: 'italic', paddingTop: '.4rem' }}>
-            <strong style={{ color: BRAND.mid }}>Notes: </strong>{expense.notes}
-          </div>
-        )}
-      </div>
-
-      {/* ── FOOTER — mirrors invoice footer exactly ── */}
-      <div style={S.footer}>
-        <div style={S.footerLeft}>
-          <img src="/Logo.png" alt="E-TecSa-K" width={22} height={22}
-            style={{ objectFit: 'contain', display: 'block', mixBlendMode: 'multiply' }} />
-          <span style={S.footerBrand}>{c.name || 'E-TecSa-K'}</span>
-        </div>
-        <div style={S.footerCenter}>{expense.expenseNumber}{' · '}{fmtDate(expense.submissionDate)}</div>
-        <div style={S.footerRight}>Thank you for your business.</div>
-      </div>
-
-    </div>
-  )
-}
+        <div style={S.sigSection}

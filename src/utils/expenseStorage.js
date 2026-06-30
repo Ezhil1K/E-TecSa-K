@@ -90,7 +90,7 @@ export function createBlankExpense() {
     submittedBy: 'Ezhil Kumar K',
     designation: 'Technical Cleanliness Expert',
     items: [
-      { id: Date.now(), date: fmt(today), category: '', description: '', receiptNo: '', amountINR: '', rate: '90.00', rateNote: '' },
+      { id: Date.now(), date: fmt(today), category: '', description: '', receiptNo: '', amountINR: '', rate: '90.00' },
     ],
     declaration: 'I certify that the expenses listed above were incurred solely for business purposes in connection with the specified project/service. All information provided is accurate and the attached receipts support each claim. I respectfully request reimbursement in accordance with the agreed terms and reimbursement policy.',
     attachments: {
@@ -100,6 +100,7 @@ export function createBlankExpense() {
       hotelBills: false,
       other: false,
     },
+    rateRemarks: 'Exchange rates used are the actual bank/transfer rates applicable on each transaction date, as evidenced by the attached bank statements and receipts.',
     notes: '',
   }
 }

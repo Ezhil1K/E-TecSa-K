@@ -143,6 +143,14 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                     onChange={e => update('project', e.target.value)} />
                 </div>
 
+                <div className={styles.fieldFull}>
+                  <label>Exchange Rate Remarks (shown on report)</label>
+                  <textarea style={{ ...inp, minHeight: '60px', resize: 'vertical', fontSize: '.875rem' }}
+                    placeholder="e.g. Rates are actual bank/transfer rates on each transaction date, as per attached bank statements."
+                    value={exp.rateRemarks || ''}
+                    onChange={e => update('rateRemarks', e.target.value)} />
+                </div>
+
               </div>
             </section>
 
@@ -299,17 +307,6 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                         </div>
 
                         <button className={styles.removeBtn} onClick={() => removeItem(item.id)} title="Remove">×</button>
-                      </div>
-
-                      {/* ── Rate note sub-row ── */}
-                      <div className={expStyles.rateNoteRow}>
-                        <span className={expStyles.rateNoteLabel}>📝 Rate note:</span>
-                        <input
-                          style={{ ...inpSm, flex: 1, fontSize: '.8rem', color: '#555', background: '#FAFAFA', borderColor: '#EEE' }}
-                          placeholder={`e.g. HDFC bank forex rate on ${item.date || 'transaction date'} — ₹${item.rate || defaultRate}/€`}
-                          value={item.rateNote || ''}
-                          onChange={e => updateItem(item.id, 'rateNote', e.target.value)}
-                        />
                       </div>
 
                     </div>
