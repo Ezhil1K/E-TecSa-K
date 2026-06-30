@@ -9,6 +9,7 @@ import NotFoundPage from './pages/NotFoundPage'
 import PrivacyPage from './pages/PrivacyPage'
 import AdminLogin from './pages/admin/AdminLogin'
 import InvoiceAdminPage from './pages/admin/InvoiceAdminPage'
+import ExpenseAdminPage from './pages/admin/ExpenseAdminPage'
 import BackToTop from './components/BackToTop'
 import ProgressBar from './components/ProgressBar'
 import CookieBanner from './components/CookieBanner'
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/privacy"       element={<PrivacyPage />} />
         <Route path="/admin"         element={<AdminLogin />} />
         <Route path="/admin/invoice" element={<InvoiceAdminPage />} />
+        <Route path="/admin/expense" element={<ExpenseAdminPage />} />
         <Route path="*"              element={<NotFoundPage />} />
       </Routes>
       {!isAdmin && <Footer />}

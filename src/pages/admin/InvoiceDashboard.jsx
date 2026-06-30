@@ -42,6 +42,7 @@ export default function InvoiceDashboard({ onCreate }) {
         </div>
         <div className={styles.topbarRight}>
           <button className={styles.btnNew} onClick={handleNew}>+ New Invoice</button>
+          <button className={styles.btnExpense} onClick={() => navigate('/admin/expense')}>+ New Expense</button>
           <button className={styles.btnLogout} onClick={handleLogout}>Sign Out</button>
         </div>
       </header>
