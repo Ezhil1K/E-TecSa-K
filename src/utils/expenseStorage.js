@@ -98,7 +98,7 @@ export function createBlankExpense() {
       hotelBills: false,
       other: false,
     },
-    rateRemarks: 'Exchange rates used are the actual bank/transfer rates applicable on each transaction date, as evidenced by the attached bank statements and receipts.',
+    rateRemarks: 'Exchange rates reflect the rate on each transaction date.',
     notes: '',
   }
 }
