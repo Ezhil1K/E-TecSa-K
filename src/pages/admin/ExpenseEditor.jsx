@@ -41,7 +41,6 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
         id: Date.now(), date: today,
         category: '', description: '', receiptNo: '',
         amountINR: '',
-        rate: '',
       }],
     }))
   }
@@ -62,7 +61,7 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
     setTimeout(() => window.print(), 300)
   }
 
-  const { totalINR, totalEUR, defaultRate } = calcExpenseTotals(exp)
+  const { totalINR } = calcExpenseTotals(exp)
 
   /* ── Shared input styles ── */
   const inp   = { padding: '.6rem .8rem', border: '1.5px solid #E4E4E4', borderRadius: '8px', fontSize: '.9rem', color: '#1a1a1a', outline: 'none', fontFamily: 'inherit', background: '#fff', width: '100%', boxSizing: 'border-box' }
@@ -227,17 +226,11 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                   <span style={{ width: '120px' }}>Category</span>
                   <span style={{ flex: 1 }}>Description</span>
                   <span style={{ width: '80px' }}>Receipt No.</span>
-                  <span style={{ width: '82px', textAlign: 'right' }}>₹/€ Rate</span>
                   <span style={{ width: '92px', textAlign: 'right' }}>Amount ₹</span>
-                  <span style={{ width: '86px', textAlign: 'right', color: '#166534' }}>EUR</span>
                   <span style={{ width: '28px' }}></span>
                 </div>
 
                 {exp.items.map((item, i) => {
-                  const inr      = parseFloat(item.amountINR) || 0
-                  const itemRate = parseFloat(item.rate) || defaultRate
-                  const eur      = inr / itemRate
-
                   return (
                     <div key={item.id} className={expStyles.itemBlock}>
 
@@ -265,30 +258,10 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                             onChange={e => updateItem(item.id, 'receiptNo', e.target.value)} />
                         </div>
 
-                        {/* Per-row exchange rate */}
-                        <div style={{ width: '82px', flexShrink: 0 }}>
-                          <input
-                            style={{ ...inpSm, textAlign: 'right', background: '#FFFBEB', borderColor: '#FDE68A', color: '#92400E', fontWeight: '700' }}
-                            type="number" step="0.01" min="1"
-                            value={item.rate || ''}
-                            placeholder={defaultRate}
-                            onChange={e => updateItem(item.id, 'rate', e.target.value)}
-                            title="Exchange rate on this transaction's date"
-                          />
-                        </div>
-
-                        {/* INR amount */}
                         <div style={{ width: '92px', flexShrink: 0 }}>
                           <input style={{ ...inpSm, textAlign: 'right' }} type="number" min="0" step="0.01" placeholder="0.00"
                             value={item.amountINR}
                             onChange={e => updateItem(item.id, 'amountINR', e.target.value)} />
-                        </div>
-
-                        {/* EUR auto-calculated */}
-                        <div style={{ width: '86px', flexShrink: 0 }}>
-                          <div style={{ ...inpSm, textAlign: 'right', background: '#F0FDF4', color: '#166534', fontWeight: '700', border: '1.5px solid #D1FAE5', userSelect: 'none' }}>
-                            {'€ '}{eur.toFixed(2)}
-                          </div>
                         </div>
 
                         <button className={styles.removeBtn} onClick={() => removeItem(item.id)} title="Remove">×</button>
@@ -311,29 +284,12 @@ export default function ExpenseEditor({ expense: initial, onBack }) {
                   <span>{'Subtotal (₹ INR)'}</span>
                   <span>{'₹ '}{totalINR.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                 </div>
-                <div className={styles.totalRow}>
-                  <span>{'Subtotal (€ EUR)  — per-transaction rates applied'}</span>
-                  <span style={{ color: '#166534', fontWeight: '700' }}>{'€ '}{totalEUR.toFixed(2)}</span>
-                </div>
                 <div className={styles.totalRowFinal}>
                   <span>Total Claimed</span>
                   <span style={{ color: '#D42B1A' }}>
                     {'₹ '}{totalINR.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                    {'  /  € '}{totalEUR.toFixed(2)}
                   </span>
                 </div>
-              </div>
-              {/* Exchange Rate Remarks — single note for the whole report */}
-              <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '.35rem' }}>
-                <label style={{ fontSize: '.75rem', fontWeight: '700', color: '#666', textTransform: 'uppercase', letterSpacing: '.08em' }}>
-                  Exchange Rate Remarks
-                </label>
-                <textarea
-                  style={{ ...inp, minHeight: '52px', resize: 'vertical', fontSize: '.875rem', borderColor: '#FDE68A', background: '#FFFBEB', color: '#78350F' }}
-                  placeholder="e.g. Rates are actual bank/transfer rates on each transaction date, as evidenced by attached bank statements."
-                  value={exp.rateRemarks || ''}
-                  onChange={e => update('rateRemarks', e.target.value)}
-                />
               </div>
 
             </section>

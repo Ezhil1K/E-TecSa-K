@@ -45,20 +45,11 @@ export function nextExpenseNumber() {
 
 export function calcExpenseTotals(expense) {
   const totalINR = (expense.items || []).reduce((s, it) => s + (parseFloat(it.amountINR) || 0), 0)
-  const totalEUR = (expense.items || []).reduce((s, it) => {
-    const inr  = parseFloat(it.amountINR) || 0
-    const rate = parseFloat(it.rate) || 0
-    return rate > 0 ? s + (inr / rate) : s
-  }, 0)
-  return { totalINR, totalEUR, defaultRate: 0 }
+  return { totalINR }
 }
 
 export function fmtINR(val) {
   return '₹ ' + (parseFloat(val) || 0).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-}
-
-export function fmtEUR(val) {
-  return '€ ' + (parseFloat(val) || 0).toFixed(2)
 }
 
 export function fmtDate(str) {
@@ -88,7 +79,7 @@ export function createBlankExpense() {
     submittedBy: 'Ezhil Kumar K',
     designation: 'Technical Cleanliness Expert',
     items: [
-      { id: Date.now(), date: fmt(today), category: '', description: '', receiptNo: '', amountINR: '', rate: '90.00' },
+      { id: Date.now(), date: fmt(today), category: '', description: '', receiptNo: '', amountINR: '' },
     ],
     declaration: 'I certify that the expenses listed above were incurred solely for business purposes in connection with the specified project/service. All information provided is accurate and the attached receipts support each claim. I respectfully request reimbursement in accordance with the agreed terms and reimbursement policy.',
     attachments: {
@@ -98,7 +89,6 @@ export function createBlankExpense() {
       hotelBills: false,
       other: false,
     },
-    rateRemarks: 'Exchange rates reflect the rate on each transaction date.',
     notes: '',
   }
 }

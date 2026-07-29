@@ -3,7 +3,7 @@ import InvoiceTemplate from '../../components/invoice/InvoiceTemplate'
 import { saveInvoice, calcTotals, fmtCurrency } from '../../utils/invoiceStorage'
 import styles from './InvoiceEditor.module.css'
 
-const CURRENCIES = ['EUR', 'USD', 'GBP', 'INR', 'AED']
+const CURRENCIES = ['INR', 'EUR', 'USD', 'GBP', 'AED']
 const STATUSES   = ['draft', 'sent', 'paid']
 
 export default function InvoiceEditor({ invoice: initial, onBack }) {

@@ -55,8 +55,9 @@ export function calcTotals(invoice) {
   return { subtotal, taxAmt, total: subtotal + taxAmt }
 }
 
-export function fmtCurrency(val, currency = 'EUR') {
-  return new Intl.NumberFormat('de-DE', { style: 'currency', currency }).format(val || 0)
+export function fmtCurrency(val, currency = 'INR') {
+  const locale = currency === 'INR' ? 'en-IN' : 'de-DE'
+  return new Intl.NumberFormat(locale, { style: 'currency', currency }).format(val || 0)
 }
 
 export function fmtDate(str) {
@@ -71,7 +72,7 @@ export function createBlankInvoice() {
   const num     = nextInvoiceNumber()
   return {
     id: num, invoiceNumber: num,
-    date: fmt(today), dueDate: fmt(due), terms: 'Net 30 Days', currency: 'EUR',
+    date: fmt(today), dueDate: fmt(due), terms: 'Net 30 Days', currency: 'INR',
     company: getCompanyDefaults(),
     client: { name: '', address: '', vatId: '' },
     items: [{ id: Date.now(), description: '', qty: 1, rate: 0 }],

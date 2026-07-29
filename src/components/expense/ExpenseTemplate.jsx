@@ -9,8 +9,6 @@ const BRAND = {
   muted:   '#7A7A7A',
   border:  '#E4E4E4',
   white:   '#FFFFFF',
-  eur:     '#166534',
-  eurBg:   '#F0FDF4',
 }
 
 const S = {
@@ -58,26 +56,15 @@ const S = {
   clientName:   { fontSize: '14px', fontWeight: '800', color: BRAND.dark, marginBottom: '.2rem' },
   clientDetail: { fontSize: '10px', color: BRAND.mid, lineHeight: '1.7' },
 
-  /* Rate notice */
-  rateNotice: {
-    fontSize: '9px', background: '#FEF9C3', border: '1px solid #FDE68A',
-    borderRadius: '4px', padding: '.4rem .9rem', marginBottom: '1.2rem',
-    color: '#78350F', fontWeight: '600',
-  },
-
   /* ── Table ── */
   tableSection: { marginBottom: '1.4rem' },
   table: { width: '100%', borderCollapse: 'collapse' },
   thead: { borderBottom: `2px solid ${BRAND.red}` },
   th:      { fontSize: '8.5px', fontWeight: '800', color: BRAND.red, textTransform: 'uppercase', letterSpacing: '.1em', padding: '.5rem .4rem', textAlign: 'left' },
   thRight: { fontSize: '8.5px', fontWeight: '800', color: BRAND.red, textTransform: 'uppercase', letterSpacing: '.1em', padding: '.5rem .4rem', textAlign: 'right' },
-  thRate:  { fontSize: '8.5px', fontWeight: '800', color: '#92400E', textTransform: 'uppercase', letterSpacing: '.1em', padding: '.5rem .4rem', textAlign: 'right', background: '#FFFBEB' },
-  thEur:   { fontSize: '8.5px', fontWeight: '800', color: BRAND.eur, textTransform: 'uppercase', letterSpacing: '.1em', padding: '.5rem .4rem', textAlign: 'right', background: BRAND.eurBg },
   td:      { padding: '.5rem .4rem', fontSize: '10px', color: BRAND.mid, borderBottom: `1px solid ${BRAND.border}`, verticalAlign: 'top' },
   tdRight: { padding: '.5rem .4rem', fontSize: '10px', color: BRAND.mid, borderBottom: `1px solid ${BRAND.border}`, textAlign: 'right', verticalAlign: 'top' },
   tdNum:   { padding: '.5rem .4rem', fontSize: '10px', color: '#94A3B8', borderBottom: `1px solid ${BRAND.border}`, textAlign: 'center', verticalAlign: 'top' },
-  tdRate:  { padding: '.5rem .4rem', fontSize: '9px', color: '#92400E', borderBottom: `1px solid ${BRAND.border}`, textAlign: 'right', background: '#FFFBEB', verticalAlign: 'top', fontWeight: '600' },
-  tdEur:   { padding: '.5rem .4rem', fontSize: '10px', color: BRAND.eur, borderBottom: `1px solid ${BRAND.border}`, textAlign: 'right', background: BRAND.eurBg, fontWeight: '600', verticalAlign: 'top' },
 
   /* Totals */
   totalsRow:     { display: 'flex', justifyContent: 'flex-end', paddingTop: '.4rem' },
@@ -127,7 +114,7 @@ const S = {
 export default function ExpenseTemplate({ expense }) {
   if (!expense) return null
 
-  const { totalINR, totalEUR, defaultRate } = calcExpenseTotals(expense)
+  const { totalINR } = calcExpenseTotals(expense)
   const c      = expense.company || {}
   const client = expense.client  || {}
 
@@ -202,11 +189,6 @@ export default function ExpenseTemplate({ expense }) {
           </div>
         </div>
 
-        {/* Exchange rate remarks */}
-        <div style={S.rateNotice}>
-          {expense.rateRemarks || 'EUR amounts converted at individual transaction-date rates. Rate per row shown in highlighted column. All INR receipts attached.'}
-        </div>
-
         {/* Expense Table */}
         <div style={S.tableSection}>
           <div style={S.sectionLabel}>Expense Details</div>
@@ -219,15 +201,11 @@ export default function ExpenseTemplate({ expense }) {
                 <th style={S.th}>Description</th>
                 <th style={{ ...S.th, width: '60px' }}>Receipt</th>
                 <th style={{ ...S.thRight, width: '88px' }}>Amount (₹)</th>
-                <th style={{ ...S.thRate,  width: '54px' }}>₹/€</th>
-                <th style={{ ...S.thEur,   width: '78px' }}>Amount (€)</th>
               </tr>
             </thead>
             <tbody>
               {(expense.items || []).map((item, i) => {
                 const inr      = parseFloat(item.amountINR) || 0
-                const itemRate = parseFloat(item.rate) || defaultRate
-                const eur      = inr / itemRate
                 return (
                   <tr key={item.id || i}>
                     <td style={S.tdNum}>{i + 1}</td>
@@ -242,8 +220,6 @@ export default function ExpenseTemplate({ expense }) {
                       {'₹ '}
                       {inr.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </td>
-                    <td style={S.tdRate}>{itemRate.toFixed(2)}</td>
-                    <td style={S.tdEur}>{'€ '}{eur.toFixed(2)}</td>
                   </tr>
                 )
               })}
@@ -264,17 +240,11 @@ export default function ExpenseTemplate({ expense }) {
                   {totalINR.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </span>
               </div>
-              <div style={S.totalRow}>
-                <span>Subtotal (€ EUR) — per-transaction rates</span>
-                <span style={{ color: BRAND.eur }}>{'€ '}{totalEUR.toFixed(2)}</span>
-              </div>
               <div style={S.totalRowFinal}>
                 <span>Total Amount Claimed</span>
                 <span>
                   {'₹ '}
                   {totalINR.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                  {'  /  '}
-                  {'€ '}{totalEUR.toFixed(2)}
                 </span>
               </div>
             </div>

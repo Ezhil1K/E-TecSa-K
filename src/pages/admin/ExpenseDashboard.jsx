@@ -81,14 +81,13 @@ export default function ExpenseDashboard({ onCreate }) {
                   <th>Period</th>
                   <th>Submitted</th>
                   <th>Amount (₹ INR)</th>
-                  <th>Amount (€ EUR)</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {expenses.map(exp => {
-                  const { totalINR, totalEUR } = calcExpenseTotals(exp)
+                  const { totalINR } = calcExpenseTotals(exp)
                   return (
                     <tr key={exp.id} onClick={() => onCreate(exp)} className={styles.row}>
                       <td className={styles.expNum}>{exp.expenseNumber}</td>
@@ -99,9 +98,6 @@ export default function ExpenseDashboard({ onCreate }) {
                       <td>{fmtDate(exp.submissionDate)}</td>
                       <td className={styles.amount}>
                         {'₹ '}{totalINR.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </td>
-                      <td className={styles.amountEur}>
-                        {'€ '}{totalEUR.toFixed(2)}
                       </td>
                       <td>
                         <span className={styles.badge}
